@@ -26,19 +26,16 @@ namespace Data
             {
                 new Service()
                 {
-                    Id = 1,
                     Description = "popis kadernickej sluzby",
                     Name = "Kadernictvo"
                 },
                 new Service()
                 {
-                    Id = 2,
                     Description = "popis pedikury",
                     Name = "Pedikura"
                 },
                 new Service()
                 {
-                    Id = 3,
                     Description = "popis manikuri",
                     Name = "Manikura"
                 }

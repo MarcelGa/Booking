@@ -29,19 +29,23 @@ namespace Data
 
         public async Task Add(Service entity)
         {
-            await _dbContext.AddAsync(entity);
+            _dbContext.Add(entity);
 
             await Save();
         }
 
-        public Task Update(Service entity)
+        public async Task Update(Service entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Update(entity);
+
+            await Save();
         }
 
-        public Task Delete(Service entity)
+        public async Task Delete(Service entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Remove(entity);
+
+            await Save();
         }
 
         private async Task<int> Save()

@@ -47,7 +47,7 @@ namespace RestApi.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Service service)
-        {
+        {            
             try
             {
                 await _serviceRepository.Add(service);
@@ -55,6 +55,53 @@ namespace RestApi.Controllers
                 return Created(url, service);
             }
             catch(Exception e)
+            {
+
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody]Service service)
+        {
+            try
+            {
+                if (service.Id != id)
+                    return BadRequest();
+
+                var oldService = await _serviceRepository.GetById(id);
+                if (oldService == null) return NotFound();
+
+                oldService.Name = service.Name ?? oldService.Name;
+                oldService.Description = service.Description ?? oldService.Description;
+
+                await _serviceRepository.Update(oldService);
+                return Ok(oldService);
+            }
+            catch
+            {
+
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var service = await _serviceRepository.GetById(id);
+                if (service == null)
+                    return NotFound();
+
+                await _serviceRepository.Delete(service);
+
+                return Ok();
+            }
+            catch
             {
 
             }
