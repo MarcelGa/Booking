@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,6 @@ namespace RestApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_configuration);
-
             services.AddDbContext<EfDbContext>(options => options.UseInMemoryDatabase("InMemoryDB"));
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddTransient<IDbInitializer, EfDbInitializer>();
@@ -42,7 +42,9 @@ namespace RestApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbInitializer seeder)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env,
+            IDbInitializer seeder)
         {
             if (env.IsDevelopment())
             {

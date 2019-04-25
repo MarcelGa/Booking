@@ -6,6 +6,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace RestApi.Controllers
 {
@@ -14,16 +15,33 @@ namespace RestApi.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly IServiceRepository _serviceRepository;
+        private readonly ILogger _logger;
 
-        public ServicesController(IServiceRepository serviceRepository)
+        public ServicesController(IServiceRepository serviceRepository, ILogger<ServicesController> logger)
         {
             _serviceRepository = serviceRepository;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _serviceRepository.Get());
+            try
+            {
+                _logger.LogInformation("Getting all service");
+
+                var services = await _serviceRepository.Get();
+
+                if (services == null) return NotFound();
+
+                return Ok(services);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error during getting all services", e);
+            }
+
+            return BadRequest();
         }
 
         [HttpGet("{id}", Name = "ServiceGet")]
@@ -31,15 +49,17 @@ namespace RestApi.Controllers
         {
             try
             {
+                _logger.LogInformation($"Getting service with id={id}");
+
                 var service = await _serviceRepository.GetById(id);
 
                 if (service == null) return NotFound();
 
                 return Ok(service);
             }
-            catch
+            catch(Exception e)
             {
-                
+                _logger.LogError($"Error during getting service with id={id}", e);
             }
 
             return BadRequest();
@@ -50,13 +70,15 @@ namespace RestApi.Controllers
         {            
             try
             {
+                _logger.LogInformation("Adding new service.");
+
                 await _serviceRepository.Add(service);
                 var url = Url.Link("ServiceGet", new { id = service.Id });
                 return Created(url, service);
             }
             catch(Exception e)
             {
-
+                _logger.LogError("Error during adding new service", e);
             }
 
             return BadRequest();
@@ -71,6 +93,8 @@ namespace RestApi.Controllers
                 if (service.Id != id)
                     return BadRequest();
 
+                _logger.LogInformation($"Updating service with id={id}");
+
                 var oldService = await _serviceRepository.GetById(id);
                 if (oldService == null) return NotFound();
 
@@ -80,9 +104,9 @@ namespace RestApi.Controllers
                 await _serviceRepository.Update(oldService);
                 return Ok(oldService);
             }
-            catch
+            catch (Exception e)
             {
-
+                _logger.LogError($"Error during updating service with id={id}", e);
             }
 
             return BadRequest();
@@ -93,6 +117,8 @@ namespace RestApi.Controllers
         {
             try
             {
+                _logger.LogInformation($"Deleting service with id={id}");
+
                 var service = await _serviceRepository.GetById(id);
                 if (service == null)
                     return NotFound();
@@ -101,9 +127,9 @@ namespace RestApi.Controllers
 
                 return Ok();
             }
-            catch
+            catch (Exception e)
             {
-
+                _logger.LogError($"Error during delete service with id={id}", e);
             }
 
             return BadRequest();

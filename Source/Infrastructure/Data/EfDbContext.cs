@@ -13,6 +13,5 @@ namespace Data
         }
         
         public DbSet<Service> Services { get; set; }
-
     }
 }
