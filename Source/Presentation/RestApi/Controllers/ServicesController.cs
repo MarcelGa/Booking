@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 namespace RestApi.Controllers
@@ -90,9 +88,6 @@ namespace RestApi.Controllers
         {
             try
             {
-                if (service.Id != id)
-                    return BadRequest();
-
                 _logger.LogInformation($"Updating service with id={id}");
 
                 var oldService = await _serviceRepository.GetById(id);
