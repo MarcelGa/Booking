@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Interfaces;
+using Core.Interfaces.Messaging;
+using Core.Interfaces.Repositories;
 using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,12 +12,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Services;
 
 namespace RestApi
 {
@@ -32,9 +34,9 @@ namespace RestApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_configuration);
-            services.AddDbContext<EfDbContext>(options => options.UseInMemoryDatabase("InMemoryDB"));
-            services.AddScoped<IServiceRepository, ServiceRepository>();
-            services.AddTransient<IDbInitializer, EfDbInitializer>();
+
+            ConfigurePersistance(services);
+            ConfigureMessagingServices(services);
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -59,6 +61,20 @@ namespace RestApi
             app.UseMvc();
             
             seeder.Seed().Wait();
+        }
+
+        private void ConfigurePersistance(IServiceCollection services)
+        {
+            services.AddDbContext<EfDbContext>(options => options.UseInMemoryDatabase("InMemoryDB"));
+            services.AddScoped<IServiceRepository, EfServiceRepository>();
+            services.AddTransient<IDbInitializer, EfDbInitializer>();
+        }
+
+        private void ConfigureMessagingServices(IServiceCollection services)
+        {
+            services.AddScoped<ISmsSender, NullMessageSender>();
+            services.AddScoped<IEmailSender, NullMessageSender>();
+            services.AddScoped<INotificationSender, NullMessageSender>();
         }
     }
 }

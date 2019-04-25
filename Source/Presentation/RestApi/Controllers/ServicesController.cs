@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Core.Entities;
-using Core.Interfaces;
+using Core.Interfaces.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
@@ -15,7 +15,8 @@ namespace RestApi.Controllers
         private readonly IServiceRepository _serviceRepository;
         private readonly ILogger _logger;
 
-        public ServicesController(IServiceRepository serviceRepository, ILogger<ServicesController> logger)
+        public ServicesController(IServiceRepository serviceRepository, 
+            ILogger<ServicesController> logger)
         {
             _serviceRepository = serviceRepository;
             _logger = logger;
