@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Core.Interfaces;
 using Core.Interfaces.Messaging;
@@ -37,6 +39,7 @@ namespace RestApi
 
             ConfigurePersistance(services);
             ConfigureMessagingServices(services);
+            ConfigureApiGenerator(services, "BookingOpenApiSpecification" , "RestAPI", "1");
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -58,6 +61,13 @@ namespace RestApi
             }
             
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint("/swagger/BookingOpenApiSpecification/swagger.json", "RestAPI");
+            });
+
             app.UseMvc();
             
             seeder.Seed().Wait();
@@ -75,6 +85,25 @@ namespace RestApi
             services.AddScoped<ISmsSender, NullMessageSender>();
             services.AddScoped<IEmailSender, NullMessageSender>();
             services.AddScoped<INotificationSender, NullMessageSender>();
+        }
+
+        private void ConfigureApiGenerator(IServiceCollection services, 
+            string name, 
+            string title, 
+            string version)
+        {
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc(name, new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = title,
+                    Version = version
+                });
+
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFilePath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                setupAction.IncludeXmlComments(xmlCommentsFilePath);
+            });
         }
     }
 }

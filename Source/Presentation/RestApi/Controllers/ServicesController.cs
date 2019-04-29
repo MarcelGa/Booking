@@ -22,6 +22,10 @@ namespace RestApi.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get all services
+        /// </summary>
+        /// <returns>All services</returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
