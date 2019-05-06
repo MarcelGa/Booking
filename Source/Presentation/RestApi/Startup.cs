@@ -10,8 +10,10 @@ using Core.Interfaces.Repositories;
 using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +27,7 @@ namespace RestApi
 {
     public class Startup
     {
+        private readonly OpenApiSettings openApiSettings = new OpenApiSettings("BookingOpenApiSpecification", "RestAPI","1");
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -39,11 +42,20 @@ namespace RestApi
 
             ConfigurePersistance(services);
             ConfigureMessagingServices(services);
-            ConfigureApiGenerator(services, "BookingOpenApiSpecification" , "RestAPI", "1");
+            ConfigureApiGenerator(services, openApiSettings);
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions( o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            services.AddMvc(setupAction =>
+            {
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+
+                setupAction.ReturnHttpNotAcceptable = true;
+
+                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddJsonOptions( o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +77,7 @@ namespace RestApi
             app.UseSwagger();
             app.UseSwaggerUI(setupAction =>
             {
-                setupAction.SwaggerEndpoint("/swagger/BookingOpenApiSpecification/swagger.json", "RestAPI");
+                setupAction.SwaggerEndpoint(openApiSettings.GetSwaggerUrl(), openApiSettings.Name);
             });
 
             app.UseMvc();
@@ -87,17 +99,14 @@ namespace RestApi
             services.AddScoped<INotificationSender, NullMessageSender>();
         }
 
-        private void ConfigureApiGenerator(IServiceCollection services, 
-            string name, 
-            string title, 
-            string version)
+        private void ConfigureApiGenerator(IServiceCollection services, OpenApiSettings settings)
         {
             services.AddSwaggerGen(setupAction =>
             {
-                setupAction.SwaggerDoc(name, new Microsoft.OpenApi.Models.OpenApiInfo()
+                setupAction.SwaggerDoc(settings.Name, new Microsoft.OpenApi.Models.OpenApiInfo()
                 {
-                    Title = title,
-                    Version = version
+                    Title = settings.Title,
+                    Version = settings.Version
                 });
 
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
