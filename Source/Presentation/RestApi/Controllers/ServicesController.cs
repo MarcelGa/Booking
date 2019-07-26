@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Entities;
-using Core.Interfaces;
+using Core.Interfaces.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 namespace RestApi.Controllers
 {
+    [Produces("application/json","application/xml")]
+    [Consumes("application/json", "application/xml")]
     [Route("api/[controller]")]
     [ApiController]
     public class ServicesController : ControllerBase
@@ -15,14 +19,21 @@ namespace RestApi.Controllers
         private readonly IServiceRepository _serviceRepository;
         private readonly ILogger _logger;
 
-        public ServicesController(IServiceRepository serviceRepository, ILogger<ServicesController> logger)
+        public ServicesController(IServiceRepository serviceRepository, 
+            ILogger<ServicesController> logger)
         {
             _serviceRepository = serviceRepository;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get all services
+        /// </summary>
+        /// <returns>All services</returns>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<IEnumerable<Service>>> Get()
         {
             try
             {
@@ -42,8 +53,15 @@ namespace RestApi.Controllers
             return BadRequest();
         }
 
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns the requested service</response>
         [HttpGet("{id}", Name = "ServiceGet")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<Service>> Get(int id)
         {
             try
             {
@@ -84,7 +102,7 @@ namespace RestApi.Controllers
 
         [HttpPatch("{id}")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]Service service)
+        public async Task<ActionResult<Service>> Put(int id, [FromBody]Service service)
         {
             try
             {
