@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CommonDomain.Model
 {
-    public abstract class Entity<TId> where TId : struct
+    public abstract class Entity<TId> where TId : struct, IEquatable<TId>
     {
         public TId Id { get; protected set; }
 
