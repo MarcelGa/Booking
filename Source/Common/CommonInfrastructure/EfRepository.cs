@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CommonInfrastructure
 {
-    public class EfRepository<T, TId> : IRepository<T, TId> where T : AggregateRoot<TId> where TId : struct , IEquatable<TId>
+    public abstract class EfRepository<T, TId> : IRepository<T, TId> where T : AggregateRoot<TId> where TId : struct , IEquatable<TId>
     {
         protected readonly DbContext _dbContext;
         protected readonly DbSet<T> _dbSet;
