@@ -1,5 +1,7 @@
 ﻿using CommonDomain.Model;
+using CommonDomain.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +19,13 @@ namespace CommonInfrastructure
     {
         private readonly DbContext _dbContext;
         private readonly DbSet<T> _dbSet;
+        private readonly IDomainEventDispatcher _dispatcher;
 
-        protected EfRepository(DbContext dbContext)
+        protected EfRepository(DbContext dbContext, IDomainEventDispatcher domainEventDispatcher)
         {
             _dbContext = dbContext;
             _dbSet = dbContext.Set<T>();
+            _dispatcher = domainEventDispatcher;
         }
 
         private IQueryable<T> Get(bool trackChanges = true)
@@ -29,9 +33,9 @@ namespace CommonInfrastructure
             return trackChanges ? _dbSet.AsQueryable() : _dbSet.AsNoTracking().AsQueryable();
         }
 
-        protected async Task<IEnumerable<T>> Search(Expression<Func<T, bool>> predicate, bool trackChanges, CancellationToken cancellationToken = default)
+        protected Task<List<T>> Search(Expression<Func<T, bool>> predicate, bool trackChanges, CancellationToken cancellationToken = default)
         {
-            return await Get(trackChanges).Where(predicate).ToListAsync(cancellationToken);
+            return Get(trackChanges).Where(predicate).ToListAsync(cancellationToken);
         }
 
         public async Task<T> GetById(TId id, bool trackChanges = true, CancellationToken cancellationToken = default)
@@ -41,6 +45,22 @@ namespace CommonInfrastructure
 
         public async Task Save(CancellationToken cancellationToken = default)
         {
+            //dispatch domain events
+            var domainEventEntities = _dbContext.ChangeTracker.Entries<T>()
+                .Select(po => po.Entity)
+                .Where(po => po.DomainEvents?.Any() ?? false);
+
+            foreach (var aggregateRoot in domainEventEntities)
+            {
+                var events = aggregateRoot.DomainEvents;
+                aggregateRoot.ClearEvents();
+
+                foreach (var domainEvent in events)
+                {
+                    await _dispatcher.Dispatch(domainEvent, cancellationToken);
+                }
+            }
+
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
