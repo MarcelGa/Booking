@@ -30,7 +30,7 @@ namespace CommonDomain.CQRS
         }
     }
 
-    public class Result : ISerializable
+    public class Result
     {
         protected Result(Exception exception)
         {
@@ -52,11 +52,6 @@ namespace CommonDomain.CQRS
         public static Result Ok()
         {
             return new Result();
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            throw new NotImplementedException();
         }
     }
 }
