@@ -1,17 +1,18 @@
-﻿using System;
+﻿using CommonDomain.CQRS;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonDomain.CQRS
+namespace CommonDomain.Decorators.CQRS
 {
-    public class RepeatCommandHandler<TCommand> : ICommandHandler<TCommand>
+    public class RetryCommandDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _handler;
         private readonly int RepeatCount = 3;
 
-        public RepeatCommandHandler(ICommandHandler<TCommand> handler)
+        public RetryCommandDecorator(ICommandHandler<TCommand> handler)
         {
             _handler = handler;
         }
@@ -25,10 +26,10 @@ namespace CommonDomain.CQRS
                     Result result = await _handler.Handle(command);
                     return result;
                 }
-                catch
+                catch(Exception ex)
                 {
                     if (i >= RepeatCount)
-                        throw;
+                        return Result.Fail(ex);
                 }
             }
 
