@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CommonDomain.CQRS
 {
-    public interface IQueryHandler<TQuery, TResult> 
-        where TQuery : IQery<TResult>
+    public interface IQueryHandler<in TQuery, TResult> 
+        where TQuery : IQuery<TResult>
     {
-        Task<TResult> Handle(TQuery query);
+        Task<Result<TResult>> Handle(TQuery query);
     }
 }

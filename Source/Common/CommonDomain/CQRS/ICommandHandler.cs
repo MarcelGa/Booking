@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace CommonDomain.CQRS
 {
-    public interface ICommandHandler<TCommand> where TCommand : ICommand
+    public interface ICommandHandler<in TCommand> 
+        where TCommand : ICommand
     {
         Task<Result> Handle(TCommand command);
     }

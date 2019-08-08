@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommonDomain.CQRS
 {
-    public interface IQery<TRessult>
+    public interface IQuery<TResult>
     {
     }
 }

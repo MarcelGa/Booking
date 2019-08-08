@@ -5,14 +5,14 @@ using System.Text;
 
 namespace CommonDomain.CQRS
 {
-    public sealed class Result<T> : Result where T : class
+    public sealed class Result<T> : Result
     {
         private Result(Exception exception, T defaultData):base(exception)
         {
             Data = defaultData;
         }
 
-        private Result(T data):base()
+        private Result(T data)
         {
             Data = data;
         }
