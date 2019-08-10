@@ -12,6 +12,12 @@ namespace CommonInfrastructure
     {
         Task<T> GetById(TId id, bool trackChanges = true, CancellationToken cancellationToken = default);
 
-        Task Save(CancellationToken cancellationToken = default); 
+        Task Save(CancellationToken cancellationToken = default);
+
+        Task Create(T aggregate, CancellationToken cancellationToken = default);
+
+        Task Update(T aggregate, CancellationToken cancellationToken = default);
+
+        Task Delete(T aggregate, CancellationToken cancellationToken = default);
     }
 }

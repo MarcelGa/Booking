@@ -63,5 +63,20 @@ namespace CommonInfrastructure
 
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
+
+        public Task Create(T aggregate, CancellationToken cancellationToken = default)
+        {
+            return _dbSet.AddAsync(aggregate, cancellationToken);
+        }
+        
+        public Task Update(T aggregate, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(_dbSet.Update(aggregate));
+        }
+
+        public Task Delete(T aggregate, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(_dbSet.Remove(aggregate));
+        }
     }
 }
