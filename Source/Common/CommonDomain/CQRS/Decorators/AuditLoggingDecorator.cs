@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace CommonDomain.CQRS.Decorators
 {
-    public class AuditLoggingDecorator<TCommand> : ICommandHandler<TCommand>
+    /// <summary>
+    /// Decorator of command handler which log command and exception if result is not successful
+    /// </summary>
+    /// <typeparam name="TCommand"></typeparam>
+    public sealed class AuditLoggingDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _handler;
@@ -21,17 +25,29 @@ namespace CommonDomain.CQRS.Decorators
 
         public async Task<Result> Handle(TCommand command)
         {
-            string commandJson = JsonConvert.SerializeObject(command);
-            string commandText = $"Command of type: {command.GetType().Name }: {commandJson}";
-
             Result result = await _handler.Handle(command);
 
-            if (result.IsSuccessful)
-                _logger.LogInformation(commandText);
-            else
-                _logger.LogError(commandText);
-
+            if (!result.IsSuccessful)
+            {
+                string commandJson = JsonConvert.SerializeObject(command);
+                string commandText = $"Command of type: {command.GetType().Name }: {commandJson}";
+                _logger.LogError(GetErrorLogMessage(commandText, result.Exception));
+            }
             return result;
+        }
+
+        private static string GetErrorLogMessage(string message, Exception ex)
+        {
+            string exceptionJson = JsonConvert.SerializeObject(ex);
+            return message + " | " + exceptionJson;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    public sealed class AuditLoggingCommandAttrribute : Attribute
+    {
+        public AuditLoggingCommandAttrribute()
+        {
         }
     }
 }
