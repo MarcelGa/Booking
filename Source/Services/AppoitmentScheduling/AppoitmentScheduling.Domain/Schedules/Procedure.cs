@@ -1,4 +1,5 @@
 ﻿using CommonDomain.Model;
+using CommonDomain.ValueObjects;
 using System;
 
 namespace AppoitmentScheduling.Domain.Schedules

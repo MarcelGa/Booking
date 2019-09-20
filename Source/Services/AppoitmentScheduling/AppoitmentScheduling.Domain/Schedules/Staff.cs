@@ -1,4 +1,5 @@
 ﻿using CommonDomain.Model;
+using CommonDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 
@@ -10,8 +11,4 @@ namespace AppoitmentScheduling.Domain.Schedules
 
         public IReadOnlyList<DateTimeRange> AvailableTimeSlots { get; private set; }
     }
-
-
-
-
 }

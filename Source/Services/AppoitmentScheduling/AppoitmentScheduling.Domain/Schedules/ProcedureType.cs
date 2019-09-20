@@ -1,4 +1,5 @@
-﻿using CommonDomain.Model;
+﻿using CommonDomain.Enums;
+using CommonDomain.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
