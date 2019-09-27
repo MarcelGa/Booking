@@ -11,6 +11,11 @@ namespace CommonDomain.ValueObjects
 
         public DateTimeRange(DateTime start, DateTime end)
         {
+            if (start >= end)
+            {
+                throw new ArgumentOutOfRangeException(nameof(start), "Start date could not be greather or equal to end date");
+            }
+
             Start = start;
             End = end;
         }
@@ -18,12 +23,27 @@ namespace CommonDomain.ValueObjects
         public DateTimeRange(DateTime start, TimeSpan duration) : this(start, start.Add(duration))
         {
         }
+        
+        public TimeSpan Duration => (End - Start);
 
-        public int DurationInMinutes()
+        public static DateTimeRange Yesterday = CreateOneDayRange(DateTime.Now.Date.AddDays(-1));
+        public static DateTimeRange Today = CreateOneDayRange(DateTime.Now.Date);
+        public static DateTimeRange Tomorow = CreateOneDayRange(DateTime.Now.Date.AddDays(1));
+        
+        public static DateTimeRange LastWeek = CreateOneWeekRange(StartOfWeek(DateTime.Now.AddDays(-7)));
+        public static DateTimeRange ThisWeek = CreateOneWeekRange(StartOfWeek(DateTime.Now));
+        public static DateTimeRange NextWeek = CreateOneWeekRange(StartOfWeek(DateTime.Now.AddDays(7)));
+
+        private static DateTime StartOfWeek(DateTime dt)
         {
-            return (End - Start).Minutes;
+            int diff = (7 + (dt.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return dt.AddDays(-1 * diff).Date;
         }
 
+        public DateTimeRange NewStart(DateTime newStart)
+        {
+            return new DateTimeRange(newStart, this.End);
+        }
         public DateTimeRange NewEnd(DateTime newEnd)
         {
             return new DateTimeRange(this.Start, newEnd);
@@ -31,10 +51,6 @@ namespace CommonDomain.ValueObjects
         public DateTimeRange NewDuration(TimeSpan newDuration)
         {
             return new DateTimeRange(this.Start, newDuration);
-        }
-        public DateTimeRange NewStart(DateTime newStart)
-        {
-            return new DateTimeRange(newStart, this.End);
         }
 
         public static DateTimeRange CreateOneDayRange(DateTime day)

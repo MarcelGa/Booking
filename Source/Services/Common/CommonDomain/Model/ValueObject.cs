@@ -5,21 +5,47 @@ using System.Text;
 
 namespace CommonDomain.Model
 {
-    public abstract class ValueObject<T>  where T : ValueObject<T>
+    public abstract class ValueObject<T> : IEquatable<T> where T : ValueObject<T>
     {
         public override bool Equals(object obj)
         {
-            var valueObject = obj as T;
-
-            if (valueObject == null)
-            {
+            if (obj == null)
                 return false;
-            }
 
-            return EqualsCore(valueObject);
+            T other = obj as T;
+
+            return Equals(other);
         }
 
-        protected abstract bool EqualsCore(T other);
+        public bool Equals(T other)
+        {
+            if (other == null)
+                return false;
+
+            Type t = GetType();
+            Type otherType = other.GetType();
+
+            if (t != otherType)
+                return false;
+
+            FieldInfo[] fields = t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+            foreach (FieldInfo field in fields)
+            {
+                object value1 = field.GetValue(other);
+                object value2 = field.GetValue(this);
+
+                if (value1 == null)
+                {
+                    if (value2 != null)
+                        return false;
+                }
+                else if (!value1.Equals(value2))
+                    return false;
+            }
+
+            return true;
+        }
 
         public override int GetHashCode()
         {
@@ -58,7 +84,7 @@ namespace CommonDomain.Model
 
             return fields;
         }
-        
+
         public static bool operator ==(ValueObject<T> a, ValueObject<T> b)
         {
             if (a is null && b is null)
