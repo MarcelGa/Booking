@@ -25,10 +25,5 @@ namespace CommonDomain.ValueObjects
             Amount = amount;
             Currency = currency;
         }
-
-        protected override bool EqualsCore(Money other)
-        {
-            return other.Amount == Amount && other.Currency == Currency;
-        }
     }
 }
