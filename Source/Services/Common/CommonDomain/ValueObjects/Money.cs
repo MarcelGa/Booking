@@ -1,21 +1,18 @@
 ﻿using CommonDomain.Enums;
 using CommonDomain.Model;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CommonDomain.ValueObjects
 {
     public class Money : ValueObject<Money>
     {
-        public static Money OneDollar => new Money(1, CurrencySymbol.Usd);
-        public static Money OneEuro => new Money(1, CurrencySymbol.Eur);
+        public static Money OneDollar => new Money(1, "USD");
+        public static Money OneEuro => new Money(1, "EUR");
 
-        public decimal Amount { get; private set; }
+        public decimal Amount { get; }
+        public Currency Currency { get; }
 
-        public CurrencySymbol Currency { get; private set; }
-
-        public Money(decimal amount, CurrencySymbol currency = CurrencySymbol.Eur)
+        public Money(decimal amount, string CurrencySymbol = "EUR")
         {
             if(amount < 0)
             {
@@ -23,7 +20,12 @@ namespace CommonDomain.ValueObjects
             }
 
             Amount = amount;
-            Currency = currency;
+            Currency = CurrencyCodeMapper.GetCurrency(CurrencySymbol);
+        }
+
+        public override string ToString()
+        {
+            return Currency.Format(Amount) + Currency.Symbol;
         }
     }
 }

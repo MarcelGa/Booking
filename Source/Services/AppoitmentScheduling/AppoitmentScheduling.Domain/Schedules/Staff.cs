@@ -7,8 +7,9 @@ namespace AppoitmentScheduling.Domain.Schedules
 {
     public class Staff : Entity<Guid>
     {
+        public string Name { get; private set; }
+        public string Info { get; private set; }
         public IReadOnlyList<Procedure> Procedures { get; private set; }
-
         public IReadOnlyList<DateTimeRange> AvailableTimeSlots { get; private set; }
     }
 }

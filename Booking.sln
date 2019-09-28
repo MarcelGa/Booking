@@ -31,11 +31,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppoitmentScheduling", "App
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CD22D1FA-0202-4E22-8908-BDD32B970BE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppoitmentScheduling.API", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.API\AppoitmentScheduling.API.csproj", "{C02CCDE6-B759-4BAF-A949-FF155311DA42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppoitmentScheduling.API", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.API\AppoitmentScheduling.API.csproj", "{C02CCDE6-B759-4BAF-A949-FF155311DA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppoitmentScheduling.Domain", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.Domain\AppoitmentScheduling.Domain.csproj", "{8B955FC5-EAA6-44B4-849B-57FDA10B10C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppoitmentScheduling.Domain", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.Domain\AppoitmentScheduling.Domain.csproj", "{8B955FC5-EAA6-44B4-849B-57FDA10B10C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppoitmentScheduling.Infrastructure", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.Infrastructure\AppoitmentScheduling.Infrastructure.csproj", "{B8E39DE6-9B35-4A97-A36B-4493B488083C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppoitmentScheduling.Infrastructure", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.Infrastructure\AppoitmentScheduling.Infrastructure.csproj", "{B8E39DE6-9B35-4A97-A36B-4493B488083C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReviewsManagement", "ReviewsManagement", "{037E8542-97D1-4FD9-8D0E-01B9E184B4AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewsManagement.Domain", "Source\Services\ReviewsManagement\ReviewsManagement.Domain\ReviewsManagement.Domain.csproj", "{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoresManagement", "StoresManagement", "{07FD3EE7-EB3E-4717-BFEA-A237C2F0D988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoresManagement.Domain", "Source\Services\StoresManagement\StoresManagement.Domain\StoresManagement.Domain.csproj", "{C21B63CD-0675-49B1-B77D-A03C7F7553A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +87,14 @@ Global
 		{B8E39DE6-9B35-4A97-A36B-4493B488083C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8E39DE6-9B35-4A97-A36B-4493B488083C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E39DE6-9B35-4A97-A36B-4493B488083C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +116,10 @@ Global
 		{C02CCDE6-B759-4BAF-A949-FF155311DA42} = {DF47481D-D08E-4B6E-9354-798DD00A525C}
 		{8B955FC5-EAA6-44B4-849B-57FDA10B10C0} = {DF47481D-D08E-4B6E-9354-798DD00A525C}
 		{B8E39DE6-9B35-4A97-A36B-4493B488083C} = {DF47481D-D08E-4B6E-9354-798DD00A525C}
+		{037E8542-97D1-4FD9-8D0E-01B9E184B4AC} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
+		{5B6F0423-EED9-4CEA-A478-3E88A9CB3570} = {037E8542-97D1-4FD9-8D0E-01B9E184B4AC}
+		{07FD3EE7-EB3E-4717-BFEA-A237C2F0D988} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
+		{C21B63CD-0675-49B1-B77D-A03C7F7553A5} = {07FD3EE7-EB3E-4717-BFEA-A237C2F0D988}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61D71069-4B5F-4CA5-AF1A-FF05615FFF58}

@@ -30,20 +30,21 @@ namespace CommonDomain.ValueObjects
     }
     public static class CurrencyCodeMapper
     {
-        private static readonly Dictionary<string, Currency> SymbolsByCode;
+        private static readonly Dictionary<string, Currency> CurrencysByISOSymbol;
 
-        public static Currency GetSymbol(string code) { return SymbolsByCode[code]; }
+        public static Currency GetCurrency(string code) { return CurrencysByISOSymbol[code.ToUpper()]; }
+        public static IEnumerable<string> ISOSymbols = CurrencysByISOSymbol.Keys.AsEnumerable();
 
         static CurrencyCodeMapper()
         {
-            SymbolsByCode = new Dictionary<string, Currency>();
+            CurrencysByISOSymbol = new Dictionary<string, Currency>();
 
             foreach(var culture in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
                 RegionInfo region = new RegionInfo(culture.LCID);
                 
-                if (!SymbolsByCode.ContainsKey(region.ISOCurrencySymbol))
-                    SymbolsByCode.Add(region.ISOCurrencySymbol, new Currency(culture));
+                if (!CurrencysByISOSymbol.ContainsKey(region.ISOCurrencySymbol))
+                    CurrencysByISOSymbol.Add(region.ISOCurrencySymbol.ToUpper(), new Currency(culture));
             }
         }
     }
