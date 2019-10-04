@@ -39,11 +39,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppoitmentScheduling.Infras
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReviewsManagement", "ReviewsManagement", "{037E8542-97D1-4FD9-8D0E-01B9E184B4AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReviewsManagement.Domain", "Source\Services\ReviewsManagement\ReviewsManagement.Domain\ReviewsManagement.Domain.csproj", "{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReviewsManagement.Domain", "Source\Services\ReviewsManagement\ReviewsManagement.Domain\ReviewsManagement.Domain.csproj", "{5B6F0423-EED9-4CEA-A478-3E88A9CB3570}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoresManagement", "StoresManagement", "{07FD3EE7-EB3E-4717-BFEA-A237C2F0D988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoresManagement.Domain", "Source\Services\StoresManagement\StoresManagement.Domain\StoresManagement.Domain.csproj", "{C21B63CD-0675-49B1-B77D-A03C7F7553A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoresManagement.Domain", "Source\Services\StoresManagement\StoresManagement.Domain\StoresManagement.Domain.csproj", "{C21B63CD-0675-49B1-B77D-A03C7F7553A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monitoring", "Monitoring", "{E77A5CBE-1DC4-4DFF-B2F0-B9A262405C7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Account", "Account", "{BD991E45-5DB8-49E7-880D-1A578908729C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +124,8 @@ Global
 		{5B6F0423-EED9-4CEA-A478-3E88A9CB3570} = {037E8542-97D1-4FD9-8D0E-01B9E184B4AC}
 		{07FD3EE7-EB3E-4717-BFEA-A237C2F0D988} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
 		{C21B63CD-0675-49B1-B77D-A03C7F7553A5} = {07FD3EE7-EB3E-4717-BFEA-A237C2F0D988}
+		{E77A5CBE-1DC4-4DFF-B2F0-B9A262405C7D} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
+		{BD991E45-5DB8-49E7-880D-1A578908729C} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61D71069-4B5F-4CA5-AF1A-FF05615FFF58}

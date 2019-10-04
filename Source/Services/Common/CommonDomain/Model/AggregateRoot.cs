@@ -9,7 +9,7 @@ namespace CommonDomain.Model
         private List<DomainEvent> _domainEvents;
         public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
 
-        public void AddEvent(DomainEvent domainEvent)
+        protected void AddEvent(DomainEvent domainEvent)
         {
             _domainEvents = _domainEvents ?? new List<DomainEvent>();
             _domainEvents.Add(domainEvent);

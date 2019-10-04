@@ -6,10 +6,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\CommonDomain\CommonDomain.csproj" />
+    <ProjectReference Include="..\..\Common\CommonInfrastructure\CommonInfrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AppServices\" />
+    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>
