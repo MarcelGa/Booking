@@ -10,16 +10,30 @@ namespace AppoitmentScheduling.Domain.Schedules
     {
         private readonly List<Order> _orders = new List<Order>();
 
-        public Guid StoreGuid { get; private set; }
+        public Store Store { get; }
 
-        public DateTimeRange DateRange { get; private set; }
+        public DateTimeRange DateRange { get; }
         
         public IEnumerable<Order> Orders => _orders;
 
         public void AddNewOrder(Procedure procedure, DateTime startDate, Client client, Staff staff)
         {
+            if (!Store.AvaliableProcedures.Contains(procedure))
+            {
+                throw new InvalidOperationException($"Procedure order can't be created. Store { Store.Name} not support procedure {procedure.Name}");
+            }
 
-            var order = new Order();
+            if(!Store.AvailableStaffs.Contains(staff))
+            {
+                throw new InvalidOperationException($"Procedure order can't be created. Staff {staff.Name} is not available in store { Store.Name}");
+            }
+
+            if (!staff.Procedures.Contains(procedure))
+            {
+                throw new InvalidOperationException($"Procedure order can't be created. Staff {staff.Name} not support procedure {procedure.Name}");
+            }
+
+            var order = new Order(procedure, client, startDate, DateTime.Now, staff);
 
             _orders.Add(order);
 
