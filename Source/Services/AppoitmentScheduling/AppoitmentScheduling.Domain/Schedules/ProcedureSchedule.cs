@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace AppoitmentScheduling.Domain.Schedules
 {
-    public class ProcedureSchedule : AggregateRoot<Guid>
+    internal class ProcedureSchedule : AggregateRoot<Guid>
     {
         private readonly List<Order> _orders = new List<Order>();
 
@@ -16,12 +16,10 @@ namespace AppoitmentScheduling.Domain.Schedules
         
         public IEnumerable<Order> Orders => _orders;
 
-        public void AddNewOrder(Order order)
+        public void AddNewOrder(Procedure procedure, DateTime startDate, Client client, Staff staff)
         {
-            if (_orders.Any(_ => _.Id == order.Id))
-            {
-                throw new ArgumentException("Cannot add duplicate order to schedule.", nameof(order));
-            }
+
+            var order = new Order();
 
             _orders.Add(order);
 

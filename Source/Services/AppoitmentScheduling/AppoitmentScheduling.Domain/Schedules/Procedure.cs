@@ -7,7 +7,7 @@ namespace AppoitmentScheduling.Domain.Schedules
     /// <summary>
     /// Procedure for schedule (e.g. man haircut with shower, ...) created by organisation admin or manager
     /// </summary>
-    public class Procedure : Entity<Guid>
+    internal class Procedure : Entity<Guid>
     {
         public string Name { get; private set; }
 

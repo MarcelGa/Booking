@@ -9,7 +9,7 @@ namespace AppoitmentScheduling.Domain.Schedules
     /// <summary>
     /// Type of procedure (e.g. man haircut, pedicure, ...) created by app admin
     /// </summary>
-    public class ProcedureType : Entity<int>
+    internal class ProcedureType : Entity<int>
     {
         public string Name { get; private set; }
 

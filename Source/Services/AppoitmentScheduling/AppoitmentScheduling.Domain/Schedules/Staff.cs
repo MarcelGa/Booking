@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AppoitmentScheduling.Domain.Schedules
 {
-    public class Staff : Entity<Guid>
+    internal class Staff : Entity<Guid>
     {
         public string Name { get; private set; }
         public string Info { get; private set; }
