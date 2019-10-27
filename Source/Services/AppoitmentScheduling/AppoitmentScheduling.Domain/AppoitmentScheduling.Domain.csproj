@@ -9,8 +9,4 @@
     <ProjectReference Include="..\..\Common\CommonInfrastructure\CommonInfrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
-
 </Project>
