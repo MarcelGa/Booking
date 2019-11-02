@@ -15,7 +15,7 @@ namespace AppoitmentScheduling.Functions
 {
     public class GetScheduleForStoreDto
     {
-        public Guid StoreId { get; set; }
+        public /*Guid*/int StoreId { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
     }
@@ -34,16 +34,31 @@ namespace AppoitmentScheduling.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var content = await new StreamReader(req.Body).ReadToEndAsync();
-            var request = JsonConvert.DeserializeObject<GetScheduleForStoreDto>(content);
+            try
+            {
+                var request = await HttpRequestConverter.Convert<GetScheduleForStoreDto>(req);
 
-            var j = req.Headers;
+                var result = await _messages.Send(new GetStoreScheduleQuery(request.StoreId,
+                    new DateTimeRange(request.From, request.To)));
 
-            var result = _messages.Send(new GetStoreScheduleQuery(request.StoreId,
-                new DateTimeRange(request.From, request.To)));
+                return new OkObjectResult(result);
+            }
+            catch(Exception e)
+            {
+                log.LogError(e.ToString(), null);
+                return new BadRequestResult();
+            }
+        }
 
+        private class HttpRequestConverter
+        {
+            public static async Task<TBody> Convert<TBody>(HttpRequest httpRequest)
+            {
+                var content = await new StreamReader(httpRequest.Body).ReadToEndAsync();
+                var body = JsonConvert.DeserializeObject<TBody>(content);
 
-            return new OkObjectResult(result);
+                return body;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CommonDomain.Services
 {
-    internal class MediatRDomainEventDispatcher : IDomainEventDispatcher
+    internal sealed class MediatRDomainEventDispatcher : IDomainEventDispatcher
     {
         private readonly IMediator _mediator;
 

@@ -13,7 +13,7 @@ namespace AppoitmentScheduling.Functions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            CQHandler.AddCQMessagesHandler(builder.Services);
+            MessagesHandler.AddMessagesHandler(builder.Services, typeof(Domain.AppServices.AddProcedureOrderCommand).Assembly);
         }
     }
 }
