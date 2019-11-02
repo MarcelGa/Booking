@@ -19,12 +19,12 @@ namespace CommonDomain.CQRS
 
         public T Data { get; }
 
-        public static Result Fail(Exception exception, T defaultData)
+        public static Result<T> Fail(Exception exception, T defaultData)
         {
             return new Result<T>(exception, defaultData);
         }
 
-        public static Result Ok(T data)
+        public static Result<T> Ok(T data)
         {
             return new Result<T>(data);
         }

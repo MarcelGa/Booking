@@ -4,6 +4,7 @@ using CommonDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppoitmentScheduling.Domain.AppServices
@@ -28,11 +29,24 @@ namespace AppoitmentScheduling.Domain.AppServices
                 this.procedureScheduleRepository = procedureScheduleRepository;
             }
 
-            public async Task<Result<ScheduleDto>> Handle(GetStoreScheduleQuery query)
+            public async Task<Result<ScheduleDto>> Handle(GetStoreScheduleQuery request, CancellationToken cancellationToken)
             {
-                var schedule = await procedureScheduleRepository.GetSchedule(query.storeId, query.dateTimeRange);
+                await Task.Delay(500);
+                //var schedule = await procedureScheduleRepository.GetSchedule(query.storeId, query.dateTimeRange);
+                var schedule = new ScheduleDto()
+                {
+                    Schedule = new StaffDto[] {
+                        new StaffDto() {
+                            Orders = new OrderDto[] {
+                                new OrderDto() {
+                                    Status = "Created"
+                                }
+                            }
+                        }
+                    }
+                };
 
-                throw new NotImplementedException();
+                return Result<ScheduleDto>.Ok(schedule);
             }
         }
     }

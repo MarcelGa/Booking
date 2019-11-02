@@ -1,5 +1,6 @@
 ﻿using CommonDomain.CQRS;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppoitmentScheduling.Domain.AppServices
@@ -27,8 +28,8 @@ namespace AppoitmentScheduling.Domain.AppServices
             {
 
             }
-
-            public Task<Result> Handle(AddProcedureOrderCommand command)
+            
+            public Task<Result> Handle(AddProcedureOrderCommand request, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
             }

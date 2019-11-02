@@ -2,6 +2,6 @@
 {
     public class ScheduleDto
     {
-        public StaffDto[] Schedule { get; }
+        public StaffDto[] Schedule { get; set; }
     }
 }

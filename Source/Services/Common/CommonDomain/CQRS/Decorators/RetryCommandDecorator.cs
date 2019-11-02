@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CommonDomain.Decorators.CQRS
@@ -21,13 +22,13 @@ namespace CommonDomain.Decorators.CQRS
             _handler = handler;
         }
 
-        public async Task<Result> Handle(TCommand command)
+        public async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
             for (int i = 0; ; i++)
             {
                 try
                 {
-                    Result result = await _handler.Handle(command);
+                    Result result = await _handler.Handle(command, cancellationToken);
                     return result;
                 }
                 catch(Exception ex)

@@ -1,13 +1,12 @@
-﻿using CommonDomain.ValueObjects;
-using System;
+﻿using System;
 
 namespace AppoitmentScheduling.Domain.Dtos
 {    
     public sealed class OrderDto
     {
-        public string Procedure { get; }
-        public DateTime Start { get; }
-        public int Duration { get; }
-        public string Status { get; }
+        public string Procedure { get; set; }
+        public DateTime Start { get; set; }
+        public int Duration { get; set; }
+        public string Status { get; set; }
     }
 }

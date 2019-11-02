@@ -1,13 +1,22 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CommonDomain.CQRS
 {
     /// <summary>
-    /// Allow other application/domain change state of domain
+    /// Command with generic type data parameter of result
     /// </summary>
-    public interface ICommand
+    /// <typeparam name="TResult">type of data parameter returned in result</typeparam>
+    public interface ICommand<TResult> : IRequest<Result<TResult>>
+    {
+    }
+    
+    /// <summary>
+    /// Command
+    /// </summary>
+    public interface ICommand : IRequest<Result>
     {
     }
 }

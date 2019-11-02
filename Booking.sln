@@ -49,6 +49,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monitoring", "Monitoring", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Account", "Account", "{BD991E45-5DB8-49E7-880D-1A578908729C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppoitmentScheduling.Functions", "Source\Services\AppoitmentScheduling\AppoitmentScheduling.Functions\AppoitmentScheduling.Functions.csproj", "{D1A3D462-1F31-4975-9746-C1BCC52015E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C21B63CD-0675-49B1-B77D-A03C7F7553A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1A3D462-1F31-4975-9746-C1BCC52015E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1A3D462-1F31-4975-9746-C1BCC52015E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1A3D462-1F31-4975-9746-C1BCC52015E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1A3D462-1F31-4975-9746-C1BCC52015E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +132,7 @@ Global
 		{C21B63CD-0675-49B1-B77D-A03C7F7553A5} = {07FD3EE7-EB3E-4717-BFEA-A237C2F0D988}
 		{E77A5CBE-1DC4-4DFF-B2F0-B9A262405C7D} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
 		{BD991E45-5DB8-49E7-880D-1A578908729C} = {28A358CC-DAF2-4146-BE95-035C7DE2BD44}
+		{D1A3D462-1F31-4975-9746-C1BCC52015E5} = {DF47481D-D08E-4B6E-9354-798DD00A525C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61D71069-4B5F-4CA5-AF1A-FF05615FFF58}

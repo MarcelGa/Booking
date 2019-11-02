@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CommonDomain.CQRS.Decorators
@@ -23,9 +24,9 @@ namespace CommonDomain.CQRS.Decorators
             _logger = logger;
         }
 
-        public async Task<Result> Handle(TCommand command)
+        public async Task<Result> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            Result result = await _handler.Handle(command);
+            Result result = await _handler.Handle(command, cancellationToken);
 
             if (!result.IsSuccessful)
             {
@@ -41,6 +42,7 @@ namespace CommonDomain.CQRS.Decorators
             string exceptionJson = JsonConvert.SerializeObject(ex);
             return message + " | " + exceptionJson;
         }
+
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
