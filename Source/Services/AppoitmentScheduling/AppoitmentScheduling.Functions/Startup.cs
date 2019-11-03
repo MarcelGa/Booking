@@ -2,6 +2,7 @@
 using CommonDomain.Extensions.ServicesRegistration;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using NetCoreInfrastructure.HttpHelpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,7 @@ namespace AppoitmentScheduling.Functions
         public override void Configure(IFunctionsHostBuilder builder)
         {
             MessagesHandler.AddMessagesHandler(builder.Services, typeof(Domain.AppServices.AddProcedureOrderCommand).Assembly);
+            HttpHelpers.AddHttpRequestConverter(builder.Services);
         }
     }
 }

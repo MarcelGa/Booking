@@ -11,13 +11,13 @@ namespace AppoitmentScheduling.Domain.AppServices
 {
     public sealed class GetStoreScheduleQuery : IQuery<ScheduleDto>
     {
-        private readonly int storeId;
-        private readonly DateTimeRange dateTimeRange;
+        private readonly Guid _storeId;
+        private readonly DateTimeRange _dateTimeRange;
 
-        public GetStoreScheduleQuery(int storeId, DateTimeRange dateTimeRange)
+        public GetStoreScheduleQuery(Guid storeId, DateTimeRange dateTimeRange)
         {
-            this.storeId = storeId;
-            this.dateTimeRange = dateTimeRange;
+            _storeId = storeId;
+            _dateTimeRange = dateTimeRange;
         }
 
         internal sealed class GetStoreScheduleQueryHandler : IQueryHandler<GetStoreScheduleQuery, ScheduleDto>

@@ -9,6 +9,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\NetCoreInfrastructure\NetCoreInfrastructure.csproj" />
     <ProjectReference Include="..\AppoitmentScheduling.Domain\AppoitmentScheduling.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
