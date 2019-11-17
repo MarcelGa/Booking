@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AppoitmentScheduling.Domain.AppServices
 {
-    public sealed class AddProcedureOrderCommand : ICommand
+    public sealed class CreateProcedureOrderCommand : ICommand
     {
         public Guid StoreId { get;}
         public Guid ProcedureId { get; }
@@ -13,7 +13,7 @@ namespace AppoitmentScheduling.Domain.AppServices
         public Guid ClientId { get; }
         public DateTime Start { get; }
 
-        public AddProcedureOrderCommand(Guid storeId, Guid procedureId, Guid staffId, Guid clientId, DateTime start)
+        public CreateProcedureOrderCommand(Guid storeId, Guid procedureId, Guid staffId, Guid clientId, DateTime start)
         {
             StoreId = storeId;
             ProcedureId = procedureId;
@@ -22,16 +22,16 @@ namespace AppoitmentScheduling.Domain.AppServices
             Start = start;
         }
 
-        internal sealed class AddProcedureCommandHandler : ICommandHandler<AddProcedureOrderCommand>
+        internal sealed class CreateProcedureCommandHandler : ICommandHandler<CreateProcedureOrderCommand>
         {
-            public AddProcedureCommandHandler(IProcedureScheduleRepository procedureScheduleRepository)
+            public CreateProcedureCommandHandler(IProcedureScheduleRepository procedureScheduleRepository)
             {
 
             }
             
-            public Task<Result> Handle(AddProcedureOrderCommand request, CancellationToken cancellationToken)
+            public Task<Result> Handle(CreateProcedureOrderCommand request, CancellationToken cancellationToken)
             {
-                throw new NotImplementedException();
+                return Task.FromResult(Result.Ok());
             }
         }
     }

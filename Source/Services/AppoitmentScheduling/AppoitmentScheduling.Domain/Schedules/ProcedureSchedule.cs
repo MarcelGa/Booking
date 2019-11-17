@@ -16,14 +16,14 @@ namespace AppoitmentScheduling.Domain.Schedules
         
         public IEnumerable<Order> Orders => _orders;
 
-        public void AddNewOrder(Procedure procedure, DateTime startDate, Client client, Staff staff)
+        public void CreateOrder(Procedure procedure, DateTime startDate, Client client, Staff staff)
         {
             if (!Store.AvaliableProcedures.Contains(procedure))
             {
                 throw new InvalidOperationException($"Procedure order can't be created. Store { Store.Name} not support procedure {procedure.Name}");
             }
 
-            if(!Store.AvailableStaffs.Contains(staff))
+            if(!Store.AvailableStaffs.Any(_ => _.Staff.Equals(staff)))
             {
                 throw new InvalidOperationException($"Procedure order can't be created. Staff {staff.Name} is not available in store { Store.Name}");
             }
@@ -33,24 +33,48 @@ namespace AppoitmentScheduling.Domain.Schedules
                 throw new InvalidOperationException($"Procedure order can't be created. Staff {staff.Name} not support procedure {procedure.Name}");
             }
 
-            var order = new Order(procedure, client, startDate, DateTime.Now, staff);
+            var order = new Order(procedure, client, startDate, staff);
 
             _orders.Add(order);
 
             //this.AddEvent
         }
 
-        public void RemoveOrder(Order order)
+        /// <summary>
+        /// Method for decline order by staff which have access to this operation
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="by"></param>
+        public void DeclineOrder(Order order, Staff by)
         {
-            if(!Orders.Any(_=> _.Id == order.Id))
+            if(!Store.AvailableStaffs.Any(_ => _.Staff.Equals(by)))
             {
-                throw new ArgumentException("Cannot remove not existing order from schedule.", nameof(order));
+                throw new InvalidOperationException($"Order can't be declined by staff {by.Name} which is not available in store {Store.Name}");
             }
 
-            _orders.RemoveAll(_ => _.Id == order.Id);
+            var storeStaff = Store.AvailableStaffs.Single(_ => _.Staff.Equals(by));
+            
+            if(!storeStaff.Staff.Equals(order.Staff) && storeStaff.Role == StoreRole.Servant)
+            {
+                throw new InvalidOperationException($"Order can't ne declined by staff {by.Name} which have not enough permission for this operation");
+            }
 
-            //this.AddEvent
+            order.Decline(storeStaff.Staff);
         }
 
+        /// <summary>
+        /// Method for decline order by client who creates it
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="by"></param>
+        public void DeclineOrder(Order order, Client by)
+        {
+            if(!order.Client.Equals(by))
+            {
+                throw new ArgumentException("Other client like that who creates order can't decline it.", nameof(by));
+            }
+
+            order.Decline(by);
+        }
     }
 }

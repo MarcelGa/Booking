@@ -23,17 +23,18 @@ namespace AppoitmentScheduling.Functions
     {
         private readonly IMessages _messages;
         private readonly IHttpRequestConverter _httpRequestConverter;
+        private readonly ILogger _log;
 
-        public GetScheduleForStore(IMessages messages, IHttpRequestConverter httpRequestConverter)
+        public GetScheduleForStore(IMessages messages, IHttpRequestConverter httpRequestConverter, ILoggerProvider log)
         {
             _messages = messages;
             _httpRequestConverter = httpRequestConverter;
+            _log = log.CreateLogger(nameof(GetScheduleForStore));
         }
 
         [FunctionName("GetScheduleForStore")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
         {
             try
             {
@@ -46,7 +47,7 @@ namespace AppoitmentScheduling.Functions
             }
             catch(Exception e)
             {
-                log.LogError(e.ToString(), null);
+                _log.LogError(e.ToString(), null);
                 return new BadRequestResult();
             }
         }

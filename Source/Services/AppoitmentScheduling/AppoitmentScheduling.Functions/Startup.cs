@@ -14,7 +14,8 @@ namespace AppoitmentScheduling.Functions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            MessagesHandler.AddMessagesHandler(builder.Services, typeof(Domain.AppServices.AddProcedureOrderCommand).Assembly);
+            builder.Services.AddLogging();
+            MessagesHandler.AddMessagesHandler(builder.Services, typeof(Domain.AppServices.CreateProcedureOrderCommand).Assembly);
             HttpHelpers.AddHttpRequestConverter(builder.Services);
         }
     }

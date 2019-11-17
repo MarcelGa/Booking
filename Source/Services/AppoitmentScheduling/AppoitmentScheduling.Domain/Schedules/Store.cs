@@ -9,7 +9,6 @@ namespace AppoitmentScheduling.Domain.Schedules
     {
         public string Name { get; }
         public IEnumerable<Procedure> AvaliableProcedures { get; }
-
-        public IEnumerable<Staff> AvailableStaffs { get; }
+        public IEnumerable<StoreStaff> AvailableStaffs { get; }
     }
 }
